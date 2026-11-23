@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: smart-queue-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: smart_queue
+      POSTGRES_USER: queue
+      POSTGRES_PASSWORD: queue12345
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - smart_queue_data:/var/lib/postgresql/data
+
+volumes:
+  smart_queue_data:
