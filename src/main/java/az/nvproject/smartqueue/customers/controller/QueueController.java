@@ -21,11 +21,14 @@ public class QueueController {
         this.queueService = queueService;
     }
 
-    // Add new customer
+    /**
+     * Registers a new customer.
+     */
     @PostMapping
     public ResponseEntity<QueueResponse> addCustomer(
             @Valid @RequestBody QueueRequest request
     ) {
+
         QueueResponse response = queueService.addCustomer(request);
 
         return ResponseEntity
@@ -33,26 +36,33 @@ public class QueueController {
                 .body(response);
     }
 
-    // Get all waiting customers
+    /**
+     * Retrieves all waiting customers.
+     */
     @GetMapping
-    public ResponseEntity<List<QueueResponse>> getAllCustomers() {
+    public ResponseEntity<List<QueueResponse>> getAllWaitingCustomers() {
 
         return ResponseEntity.ok(
                 queueService.getAllWaitingCustomers()
         );
     }
 
-    // Get customer by ID
+    /**
+     * Retrieves a customer by ID.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<QueueResponse> getCustomerById(
             @PathVariable Long id
     ) {
+
         return ResponseEntity.ok(
                 queueService.getCustomerById(id)
         );
     }
 
-    // Call next customer
+    /**
+     * Calls the next waiting customer.
+     */
     @PostMapping("/next")
     public ResponseEntity<QueueResponse> callNextCustomer() {
 
@@ -61,11 +71,27 @@ public class QueueController {
         );
     }
 
-    // Remove customer from queue
+    /**
+     * Completes customer service.
+     */
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<QueueResponse> completeCustomer(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                queueService.completeCustomer(id)
+        );
+    }
+
+    /**
+     * Removes a waiting customer.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeCustomer(
             @PathVariable Long id
     ) {
+
         queueService.removeCustomer(id);
 
         return ResponseEntity.noContent().build();
